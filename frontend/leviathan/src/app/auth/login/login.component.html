@@ -1,0 +1,21 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+    <h1>
+        Login
+    </h1>
+    <div class="form-group">
+        <input type="email" formControlName="email" id="email" placeholder="Email" class="form-control">
+        <div class="invalid" *ngIf="email.errors && email.touched">
+            Please provide a valid email.
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="password" formControlName="password" id="password" placeholder="Password" class="form-control">
+        <div class="invalid" *ngIf="password.errors && password.touched">
+            Please provide a valid password.
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary"> Login </button>
+        <a [routerLink]="['/auth', 'register']" class="ml-2"> Do not have an account yet? </a>
+    </div>
+</form>

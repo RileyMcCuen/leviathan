@@ -1,13 +1,14 @@
 import express from 'express';
 import { RequestHandler } from 'express-serve-static-core';
-import {Tick} from '../rate-limiting/decorator';
+import { Tick } from '../rate-limiting/decorator';
+import { SupportedOperations } from './endpoint';
 
 export interface Endpoint {
     ops?: SupportedOperations;
-    get(req: express.Request, res: express.Response): void;
-    post(req: express.Request, res: express.Response): void;
-    put(req: express.Request, res: express.Response): void;
-    delete(req: express.Request, res: express.Response): void;
+    get?(req: express.Request, res: express.Response): void;
+    post?(req: express.Request, res: express.Response): void;
+    put?(req: express.Request, res: express.Response): void;
+    delete?(req: express.Request, res: express.Response): void;
 }
 
 export class MockEndpoint implements Endpoint {
@@ -33,7 +34,7 @@ export interface SupportedOperations {
     delete: boolean;
 }
 
-export function Operations(
+function operations(
     get = false,
     post = false,
     put = false,
@@ -47,9 +48,61 @@ export function Operations(
     };
 }
 
+// tslint:disable-next-line: max-classes-per-file
+export class SupportedOpertionsFactory {
+    static ALL = new SupportedOpertionsFactory()
+        .get()
+        .post()
+        .put()
+        .del()
+        .build();
+
+    static GET_ONLY = new SupportedOpertionsFactory().get().build();
+
+    static POST_ONLY = new SupportedOpertionsFactory().post().build();
+
+    static PUT_ONLY = new SupportedOpertionsFactory().put().build();
+
+    static DELETE_ONLY = new SupportedOpertionsFactory().del().build();
+
+    constructor(
+        private supOp: SupportedOperations = operations(
+            false,
+            false,
+            false,
+            false
+        )
+    ) {}
+
+    get(): SupportedOpertionsFactory {
+        this.supOp.get = !this.supOp.get;
+        return this;
+    }
+
+    post(): SupportedOpertionsFactory {
+        this.supOp.post = !this.supOp.post;
+        return this;
+    }
+
+    put(): SupportedOpertionsFactory {
+        this.supOp.put = !this.supOp.put;
+        return this;
+    }
+
+    del(): SupportedOpertionsFactory {
+        this.supOp.delete = !this.supOp.delete;
+        return this;
+    }
+
+    build(): SupportedOperations {
+        return this.supOp;
+    }
+}
+
 export interface Route {
-    methods?: SupportedOperations;
-    endpoint: Endpoint;
-    name: string;
+    endpoint?: Endpoint;
     extraHandlers?: RequestHandler[];
+    children?: Route[];
+    methods?: SupportedOperations;
+    name: string;
 }

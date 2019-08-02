@@ -1,0 +1,38 @@
+@import "./../../../../node_modules/bootstrap/scss/bootstrap.scss";
+.center-half {
+    @include make-col-ready;
+    @include media-breakpoint-up(xs) {
+        @include make-col(12);
+    }
+    @include media-breakpoint-up(sm) {
+        @include make-col(10);
+    }
+    @include media-breakpoint-up(md) {
+        @include make-col(8);
+    }
+    @include media-breakpoint-up(lg) {
+        @include make-col(6);
+    }
+}
+
+.half-offset {
+    @include media-breakpoint-up(xs) {
+        @include make-col-offset(0);
+    }
+    @include media-breakpoint-up(sm) {
+        @include make-col-offset(1);
+    }
+    @include media-breakpoint-up(md) {
+        @include make-col-offset(2);
+    }
+    @include media-breakpoint-up(lg) {
+        @include make-col-offset(3);
+    }
+}
+.fvh {
+    height: 100vh;
+}
+
+.invalid {
+    color: rgb(221, 0, 0);
+}

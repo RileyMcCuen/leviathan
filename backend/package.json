@@ -14,9 +14,13 @@
   "author": "Riley",
   "license": "ISC",
   "dependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/pg": "^7.4.14",
     "axios": "^0.19.0",
+    "bcrypt": "^3.0.6",
     "express": "^4.17.1",
     "node-ts-cache": "^2.0.0",
+    "pg": "^7.12.0",
     "redis": "^2.8.0",
     "tsc-watch": "^2.2.1",
     "typescript-logging": "^0.6.3"
